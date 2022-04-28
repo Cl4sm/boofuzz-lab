@@ -22,6 +22,5 @@ WORKDIR /fuzz/server
 
 COPY --from=builder /build/server/dialserver .
 COPY --from=builder /build/server/libnfCallbacks.so /lib/x86_64-linux-gnu
-COPY http.dict .
 EXPOSE 56790/tcp
 CMD ["/fuzz/server/dialserver"]
