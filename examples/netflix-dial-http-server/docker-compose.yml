@@ -4,14 +4,19 @@ version: '3.9'
 services:
     boofuzz:
         build:
-            context: .
+            context: ../../
             dockerfile: ./Dockerfile
+        volumes:
+            - ./fuzzer.py:/fuzzer.py
+        command: python3 /fuzzer.py
         networks:
             - fuzz_network
         ports:
-            - 80:80
-    netflix:
-        image: forallsecure/netflix-cve-2019-10028 
+            - 26000:26000
+    netflix-cve:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
         networks:
             - fuzz_network
 networks:
