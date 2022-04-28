@@ -1,0 +1,18 @@
+# docker-compose.yml
+
+version: '3.9'
+services:
+    boofuzz:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        networks:
+            - fuzz_network
+        ports:
+            - 80:80
+    netflix:
+        image: forallsecure/netflix-cve-2019-10028 
+        networks:
+            - fuzz_network
+networks:
+    fuzz_network:
