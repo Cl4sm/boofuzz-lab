@@ -8,7 +8,7 @@ from boofuzz import *
 
 def main():
     session = Session(
-        target=Target(connection=TCPSocketConnection("127.0.0.1", 80)),
+        target=Target(connection=TCPSocketConnection("dialserver", 56790)),
     )
 
     s_initialize(name="Request")
