@@ -8,4 +8,4 @@ bug in Netflix'x DIAL Server. The tutorial code can be found in the
 `examples/netflix-dial-http-server/` folder. The Tutorial uses Docker and 
 Docker Compose to run the lab.
 
-
+Please see the [README.md](./examples/netflix-dial-http-server/README.md) in the netflix dial example.
