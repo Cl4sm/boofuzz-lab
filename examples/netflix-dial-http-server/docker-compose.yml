@@ -12,7 +12,8 @@ services:
         links:
             - netflix-cve:dialserver
         networks:
-            - fuzz_network
+            - default
+            - dock_net
         ports:
             - 26000:26000
     netflix-cve:
@@ -20,8 +21,7 @@ services:
             context: .
             dockerfile: ./Dockerfile
         networks:
-            - fuzz_network
-        ports:
-            - 56790:56790
+            - dock_net
 networks:
-    fuzz_network:
+    dock_net:
+        driver: ipvlan
