@@ -10,13 +10,13 @@ services:
             - ./fuzzer.py:/fuzzer.py
         command: "python3 /fuzzer.py > /dev/null"
         links:
-            - netflix-cve:dialserver
+            - netflix-dial:dialserver
         networks:
             - default
             - dock_net
         ports:
             - 26000:26000
-    netflix-cve:
+    netflix-dial:
         build:
             context: .
             dockerfile: ./Dockerfile

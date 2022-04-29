@@ -4,7 +4,7 @@ FROM debian:buster-slim as builder
 RUN apt-get update && \
     apt-get install -y \
     libcurl4-openssl-dev zlib1g-dev libssl-dev build-essential git \
-    gdb
+    gdb net-utils iputils-ping tcpdump 
 
 # Get the current dial-reference repo
 WORKDIR /build
