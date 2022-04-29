@@ -8,20 +8,13 @@ services:
             dockerfile: ./Dockerfile
         volumes:
             - ./fuzzer.py:/fuzzer.py
-        command: python3 /fuzzer.py
+        command: "python3 /fuzzer.py > /dev/null"
         links:
             - netflix-cve:dialserver
-        networks:
-            - fuzz_network
         ports:
             - 26000:26000
     netflix-cve:
         build:
             context: .
             dockerfile: ./Dockerfile
-        networks:
-            - fuzz_network
-        ports:
-            - 56790:56790
-networks:
-    fuzz_network:
+        restart: always
