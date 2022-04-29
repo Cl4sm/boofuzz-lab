@@ -10,29 +10,28 @@ def main():
     session = Session(
         target=Target(connection=TCPSocketConnection("dialserver", 56790)),
     )
+    req = Request("HTTP-Request", children=(
+    Block("Request-Line", children=(
+        Group(name="Method", values=["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE"]),
+        Delim(name="space-1", default_value=" "),
+        String(name="Request-URI", default_value="/index.html"),
+        Delim(name="space-2", default_value=" "),
+        String(name="HTTP-Version", default_value="HTTP/1.1"),
+        Static(name="CRLF", default_value="\r\n"),
+        Static(name="Content-Length-Header", default_value="Content-Length:"),
+        Delim(name="space-3", default_value=" "),
+        )),
+        FuzzableBlock("Content-Length-Param", children=(
+            QWord(name="Content-Length-Value", fuzzable=True, output_format="ascii", signed=True),
+            Static(name="CRLF-end", default_value="\r\n"),
+        )),
 
-    s_initialize(name="Request")
-    with s_block("Request-Line"):
-        s_group("Method", ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE"])
-        s_delim(" ", name="space-1")
-        s_string("/index.html", name="Request-URI")
-        s_delim(" ", name="space-2")
-        s_string("HTTP/1.1", name="HTTP-Version")
-        s_static("\r\n", name="Request-Line-CRLF")
-        s_string("Host:", name="Host-Line")
-        s_delim(" ", name="space-3")
-        s_string("example.com", name="Host-Line-Value")
-        s_static("\r\n", name="Host-Line-CRLF")
-        s_static("Content-Length:", name="Content-Length-Header")
-        s_delim(" ", name="space-4")
-        s_size("Body-Content", output_format="ascii", name="Content-Length-Value")
-        s_static("\r\n", "Content-Length-CRLF")
-    s_static("\r\n", "Request-CRLF")
+        Static(name="CRLF", default_value="\r\n"),
+    ))
 
-    with s_block("Body-Content"):
-        s_string("Body content ...", name="Body-Content-Value")
+    # fmt: on
 
-    session.connect(s_get("Request"))
+    session.connect(req)
 
     session.fuzz()
 
