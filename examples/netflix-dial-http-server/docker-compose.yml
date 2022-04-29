@@ -22,7 +22,6 @@ services:
             dockerfile: ./Dockerfile
         networks:
             - dock_net
-        restart: always
 networks:
     dock_net:
         driver: ipvlan
